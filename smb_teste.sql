@@ -1,0 +1,35 @@
+CREATE DATABASE smb_teste;
+CREATE TABLE smb_teste.cadastro(
+	id_cad int NOT NULL AUTO_INCREMENT,
+    nome varchar(100),
+    telefone varchar(11),
+	email varchar(100),
+    data_nasc date,
+    PRIMARY KEY (id_cad)
+);
+INSERT INTO smb_teste.cadastro (nome, telefone, email, data_nasc) VALUES 
+('João Silva', '11987654321', 'joao.silva@email.com', '1990-01-01'),
+('Maria Souza', '11976543210', 'maria.souza@email.com', '1995-02-15'),
+('Pedro Oliveira', '11988887777', 'pedro.oliveira@email.com', '1988-03-22'),
+('Ana Santos', '11999998888', 'ana.santos@email.com', '1985-04-17'),
+('Fernando Lima', '11966665555', 'fernando.lima@email.com', '1992-05-03'),
+('Luana Almeida', '11955554444', 'luana.almeida@email.com', '1983-06-12'),
+('Diego Pereira', '11944443333', 'diego.pereira@email.com', '1982-07-07'),
+('Renata Torres', '11933332222', 'renata.torres@email.com', '1998-08-19'),
+('Gabriel Costa', '11922221111', 'gabriel.costa@email.com', '1994-09-27'),
+('Juliana Oliveira', '11911110000', 'juliana.oliveira@email.com', '1997-10-31'),
+('Rafaela Silva', '11987654321', 'rafaela.silva@email.com', '1993-11-26'),
+('Bruno Santos', '11976543210', 'bruno.santos@email.com', '1980-12-29'),
+('André Almeida', '11988887777', 'andre.almeida@email.com', '1991-01-02'),
+('Aline Pereira', '11999998888', 'aline.pereira@email.com', '1984-02-08'),
+('Marcos Lima', '11966665555', 'marcos.lima@email.com', '1987-03-14'),
+('Paulo Oliveira', '11955554444', 'paulo.oliveira@email.com', '1999-04-18'),
+('Beatriz Souza', '11944443333', 'beatriz.souza@email.com', '1996-05-21'),
+('Carla Santos', '11933332222', 'carla.santos@email.com', '1981-06-24'),
+('Thiago Torres', '11922221111', 'thiago.torres@email.com', '1990-07-28'),
+('Isabela Costa', '11911110000', 'isabela.costa@email.com', '1995-08-30'),
+('Ricardo Pereira', '11987654321', 'ricardo.pereira@email.com', '1982-09-16'),
+('Mariana Lima', '11976543210', 'mariana.lima@email.com', '1989-10-10'),
+('Lucas Oliveira', '11988887777', 'lucas.oliveira@email.com', '1992-11-12'),
+('Roberta Almeida', '11999998888', 'roberta.almeida@email.com', '1986-12-20'),
+('Leonardo Santos', '11966665555', 'leonardo.santos@email.com', '1993-01-23');
