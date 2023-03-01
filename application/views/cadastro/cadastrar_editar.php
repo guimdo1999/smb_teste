@@ -24,18 +24,18 @@
                 <form action="<?= uri_string() === 'cadastrar' ? "cadastrar" : base_url("editar/{$cadastro->id_cad}") ?>" method="post">
                     <div class="form-group">
                         <label>Nome</label>
-                        <input class="form-control" type="text" placeholder="Nome e sobrenome" name="nome" value="<?= uri_string() === 'cadastrar' ? "" : $cadastro->nome ?>" />
+                        <input class="form-control" type="text" placeholder="Nome e sobrenome" name="nome" value="<?= uri_string() === 'cadastrar' ? set_value('nome') : $cadastro->nome ?>" />
                         <span class="danger"><?= form_error('nome') ?></span>
                     </div>
                     <div class="form-group">
                         <label>Telefone</label>
-                        <input class="form-control" id="telefone" name="telefone" placeholder="(__) _____-____" maxlength="15" pattern="\(\d{2}\)\s*\d{4,5}-\d{4}" value="<?= uri_string() === 'cadastrar' ? "" : $cadastro->telefone ?>">
+                        <input class="form-control" id="telefone" name="telefone" placeholder="(__) _____-____" maxlength="15" pattern="\(\d{2}\)\s*\d{4,5}-\d{4}" value="<?= uri_string() === 'cadastrar' ? set_value('telefone') : $cadastro->telefone ?>">
                         <span class="danger"><?= form_error('telefone') ?></span>
 
                     </div>
                     <div class="form-group">
                         <label>E-mail</label>
-                        <input class="form-control" type="email" name="email" placeholder="seu.email@gmail.com" value="<?= uri_string() === 'cadastrar' ? "" : $cadastro->email ?>" />
+                        <input class="form-control" type="email" name="email" placeholder="seu.email@gmail.com" value="<?= uri_string() === 'cadastrar' ? set_value('email') : $cadastro->email ?>" />
                         <span class="danger"><?= form_error('email') ?></span>
 
                     </div>
@@ -44,7 +44,7 @@
                         <div class="ui calendar datepick" id="calendar">
                             <div class="ui fluid input left icon">
                                 <i class="calendar icon"></i>
-                                <input id="datePicker" class="form-control" type="text" name="data_nasc" maxlength="10" placeholder="10/10/1999" value="<?= uri_string() === 'cadastrar' ? "" : $cadastro->data_nasc ?>">
+                                <input id="datePicker" class="form-control" type="text" name="data_nasc" maxlength="10" placeholder="10/10/1999" value="<?= uri_string() === 'cadastrar' ? set_value('data_nasc') : $cadastro->data_nasc ?>">
                             </div>
                         </div>
                         <span class="danger"><?= form_error('data_nasc') ?></span>
