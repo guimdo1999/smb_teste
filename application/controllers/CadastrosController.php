@@ -7,11 +7,13 @@ class CadastrosController extends CI_Controller
     public function formCadastro()
     {
         $this->load->helper('form');
+        $this->load->helper('url');
         return $this->load->view('cadastro/cadastrar_editar');
     }
 
     public function inserirCadastro()
     {
+        
         $this->load->library('form_validation');
         $this->load->model("Cadastros", "cadastro");
 
@@ -38,6 +40,7 @@ class CadastrosController extends CI_Controller
 
     public function buscarCadastros()
     {
+        $this->load->helper('url');
         $this->load->model("Cadastros", "cadastro");
 
         $dataIniPost = convertDate($this->input->get('data_ini'));
@@ -48,6 +51,11 @@ class CadastrosController extends CI_Controller
             $this->input->get('data_ini') == "" ? NULL : date('Y-m-d', strtotime($dataIniPost)),
             $this->input->get('data_fim') == "" ? NULL : date('Y-m-d', strtotime($dataFimPost))
         );
+        foreach ($lista_cadastros as $lista) {
+            $lista->telefone = maskTel($lista->telefone);
+            $lista->data_nasc= date("d/m/Y", strtotime($lista->data_nasc));
+        }
+        
         $dados = array("lista_cadastros" => $lista_cadastros);
         $this->load->view('cadastro/listar_cadastro', $dados);
     }
@@ -62,18 +70,8 @@ class CadastrosController extends CI_Controller
     public function editarCadastro($cad_id)
     {
         $this->load->model("Cadastros", "cadastro");
+        $this->load->helper('url');
         $cadastro = $this->cadastro->buscarId($cad_id);
-        function maskTel($telefone)
-        {
-            $telefoneFormatado = preg_replace('/[^0-9]/', '', $telefone);
-            $combina = [];
-            preg_match('/^([0-9]{2})([0-9]{4,5})([0-9]{4})$/', $telefoneFormatado, $combina);
-            if ($combina) {
-                return '(' . $combina[1] . ') ' . $combina[2] . '-' . $combina[3];
-            }
-
-            return $telefone;
-        }
         $cadastro->telefone = maskTel($cadastro->telefone);
         $dados = array("cadastro" => $cadastro);
         $this->load->view("cadastro/cadastrar_editar", $dados);

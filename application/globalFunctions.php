@@ -7,5 +7,14 @@ function convertDate($date)
     $date = $data2 . "/" . $data1 . "/" . $data3;
     return $date;
 }
+function maskTel($telefone)
+{
+    $telefoneFormatado = preg_replace('/[^0-9]/', '', $telefone);
+    $combina = [];
+    preg_match('/^([0-9]{2})([0-9]{4,5})([0-9]{4})$/', $telefoneFormatado, $combina);
+    if ($combina) {
+        return '(' . $combina[1] . ') ' . $combina[2] . '-' . $combina[3];
+    }
 
-
+    return $telefone;
+}

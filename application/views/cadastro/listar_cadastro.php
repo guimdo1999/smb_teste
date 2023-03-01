@@ -11,12 +11,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.2/dist/semantic.min.css">
     <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.2/dist/semantic.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/style.css">
+
     <title>Lista de Cadastros</title>
 </head>
-<style>
-    <?php include 'style.css' ?>
-</style>
-
 <body>
     <div class="container">
         <form action="lista" method="get">
@@ -48,7 +46,7 @@
                             </div>
                         </div>
                         <div class="col-md-2 ">
-                            <div class="ui calendar datePick" id="calendar_fim">
+                            <div class="ui calendar datepick" id="calendar_fim">
                                 <div class="ui input left icon">
                                     <i class="calendar icon"></i>
                                     <input id="datePick" type="text" class="form-control" name="data_fim" maxlength="10" value="" placeholder="Data final">
@@ -78,25 +76,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
-                        function maskTel($telefone)
-                        {
-                            $telefoneFormatado = preg_replace('/[^0-9]/', '', $telefone);
-                            $combina = [];
-                            preg_match('/^([0-9]{2})([0-9]{4,5})([0-9]{4})$/', $telefoneFormatado, $combina);
-                            if ($combina) {
-                                return '(' . $combina[1] . ') ' . $combina[2] . '-' . $combina[3];
-                            }
-
-                            return $telefone;
-                        }
-                        ?>
                         <?php foreach ($lista_cadastros as $key_cadastro => $cadastro) { ?>
                             <tr>
                                 <td><?= $cadastro->nome ?></td>
                                 <td><?= $cadastro->email ?></td>
-                                <td><?= maskTel($cadastro->telefone) ?></td>
-                                <td><?= date("d/m/Y", strtotime($cadastro->data_nasc)) ?></td>
+                                <td><?= $cadastro->telefone ?></td>
+                                <td><?= $cadastro->data_nasc ?></td>
                                 <td>
                                     <a href="<?= base_url("editar/{$cadastro->id_cad}") ?>" class="btn primary">Editar</a>
                                     <a href="<?= base_url("excluir/{$cadastro->id_cad}") ?>" class="btn btn-danger btn-excluir">X</a>
@@ -108,54 +93,6 @@
             </div>
         </div>
     </div>
-
 </body>
-<script>
-    $('.datepick')
-        .calendar({
-            type: "date",
-            monthFirst: false,
-            formatter: {
-                date: 'DD/MM/Y'
-            },
-            text: {
-                days: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
-                dayNamesShort: ['Dom', 'Seg', 'Terça', 'Qua', 'Qui', 'Sexta', 'Sáb'],
-                dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
-                months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-                monthsShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-                today: 'Hoje',
-                now: 'Agora',
-                am: 'AM',
-                pm: 'PM',
-                weekNo: 'Semana'
-            }
-        });
-    $(function() {
-        $('.btn-excluir').click(function(e) {
-            e.preventDefault();
-            if (confirm("Tem certeza que deseja excluir esse registro?")) {
-                const href = $(this).attr('href');
-                window.location.href = href;
-            }
-        })
-    })
-
-    //lidando com tamanhos de tela a partir de tablet
-    if (window.screen.width > 768) {
-        $(".table").removeClass("very long").addClass("long");
-    } else {
-        $(".table").removeClass("long").addClass("very long");
-    }
-    $(window).resize(function() {
-        if (window.screen.width > 768) {
-            $(".table").removeClass("very long").addClass("long");
-
-        } else {
-            $(".table").removeClass("long").addClass("very long");
-
-        }
-    })
-</script>
-
+<script type='text/javascript' src ="<?php echo base_url(); ?>js/listar_cadastro.js"></script>
 </html>
