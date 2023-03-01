@@ -17,7 +17,7 @@ class CadastrosController extends CI_Controller
 
         $this->form_validation->set_rules('nome', 'Nome', 'required', array('required' => 'Você deve preencher o campo Nome.'));
         $this->form_validation->set_rules('telefone', 'Telefone', 'required', array('required' => 'Você deve preencher o campo telefone.'));
-        $this->form_validation->set_rules('email', 'Email', 'required|valid_email', array('required' => 'Você deve preencher o campo E-mail.'));
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email', array('required' => 'Você deve preencher o campo E-mail.', 'valid_email' => 'Preencha um e-mail válido.'));
         $this->form_validation->set_rules('data_nasc', 'Data de nascimento', 'required', array('required' => 'Você deve preencher a Data de Nascimento.'));
 
         if ($this->form_validation->run() == false) {
@@ -75,7 +75,6 @@ class CadastrosController extends CI_Controller
             return $telefone;
         }
         $cadastro->telefone = maskTel($cadastro->telefone);
-        var_dump($cadastro->data_nasc);
         $dados = array("cadastro" => $cadastro);
         $this->load->view("cadastro/cadastrar_editar", $dados);
     }
@@ -83,10 +82,10 @@ class CadastrosController extends CI_Controller
     public function atualizarCadastro($cad_id)
     {
         $this->load->model("Cadastros", "cadastro");
-        $this->form_validation->set_rules('nome', 'Nome', 'required');
-        $this->form_validation->set_rules('telefone', 'Telefone', 'required');
-        $this->form_validation->set_rules('email', 'Email', 'required');
-        $this->form_validation->set_rules('data_nasc', 'Data de nascimento', 'required');
+        $this->form_validation->set_rules('nome', 'Nome', 'required', array('required' => 'Você deve preencher o campo Nome.'));
+        $this->form_validation->set_rules('telefone', 'Telefone', 'required', array('required' => 'Você deve preencher o campo telefone.'));
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email', array('required' => 'Você deve preencher o campo E-mail.', 'valid_email' => 'Preencha um e-mail válido.'));
+        $this->form_validation->set_rules('data_nasc', 'Data de nascimento', 'required', array('required' => 'Você deve preencher a Data de Nascimento.'));
 
         if ($this->form_validation->run() === false) {
             $this->editarCadastro($cad_id);

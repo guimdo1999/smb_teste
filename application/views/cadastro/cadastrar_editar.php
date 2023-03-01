@@ -27,21 +27,24 @@
     <div class="container">
         <div class="card">
             <div class="card-body">
-                <?php echo validation_errors() ?>
                 <?= $this->session->flashdata('cadastro-movimentacao') ?>
                 <h1><?= uri_string() === 'cadastrar' ? "Cadastro" : "Editar" ?></h1>
                 <form action="<?= uri_string() === 'cadastrar' ? "cadastrar" : base_url("editar/{$cadastro->id_cad}") ?>" method="post">
                     <div class="form-group">
                         <label>Nome</label>
                         <input class="form-control" type="text" placeholder="Nome e sobrenome" name="nome" value="<?= uri_string() === 'cadastrar' ? $nome : $cadastro->nome ?>" />
+                        <span class="danger"><?= form_error('nome')?></span>
                     </div>
                     <div class="form-group">
                         <label>Telefone</label>
                         <input class="form-control" id="telefone" name="telefone" placeholder="(__) _____-____" maxlength="15" pattern="\(\d{2}\)\s*\d{4,5}-\d{4}" value="<?= uri_string() === 'cadastrar' ? $telefone : $cadastro->telefone ?>">
+                        <span class="danger"><?= form_error('telefone')?></span>
+                    
                     </div>
                     <div class="form-group">
                         <label>E-mail</label>
                         <input class="form-control" type="email" name="email" placeholder="seu.email@gmail.com" value="<?= uri_string() === 'cadastrar' ? $email : $cadastro->email ?>" />
+                        <span class="danger"><?= form_error('email')?></span>
 
                     </div>
                     <div class="form-group">
@@ -52,6 +55,8 @@
                                 <input id="datePicker" class="form-control" type="text" name="data_nasc" maxlength="10" placeholder="10/10/1999" value="<?= uri_string() === 'cadastrar' ? $data_nasc : $cadastro->data_nasc ?>">
                             </div>
                         </div>
+                        <span class="danger"><?= form_error('data_nasc')?></span>
+
                     </div>
                     <div class="form-group">
                         <input type="submit" class="ui icon button primary form-control" nome="<?= uri_string() === 'cadastrar' ? "Enviar" : "Atualizar" ?>"/>

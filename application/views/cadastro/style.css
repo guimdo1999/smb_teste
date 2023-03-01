@@ -14,6 +14,9 @@ body {
 	background-color: #33bad4 !important;
 	color: white !important;
 }
+.danger {
+	color: red !important;
+}
 
 .card {
 	margin-top: 10px;

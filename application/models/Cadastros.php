@@ -32,7 +32,6 @@ class Cadastros extends CI_Model
         }
 
         //Fazemos uma query where e o get.
-        //var_dump($query);
         $this->db->where($query);
         return $this->db->get('cadastro')->result();
     }
