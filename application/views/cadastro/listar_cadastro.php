@@ -43,15 +43,15 @@
                             <div class="ui calendar datepick" id="calendar_ini">
                                 <div class="ui input left icon">
                                     <i class="calendar icon"></i>
-                                    <input type="text" class="form-control" name="data_ini" placeholder="Data inicial">
+                                    <input id="datePic" type="text" class="form-control" name="data_ini" maxlength="10" value="" placeholder="Data inicial">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-2 ">
-                            <div class="ui calendar datepick" id="calendar_fim">
+                            <div class="ui calendar datePick" id="calendar_fim">
                                 <div class="ui input left icon">
                                     <i class="calendar icon"></i>
-                                    <input type="text" class="form-control" name="data_fim" placeholder="Data final">
+                                    <input id="datePick" type="text" class="form-control" name="data_fim" maxlength="10" value="" placeholder="Data final">
                                 </div>
                             </div>
                         </div>
@@ -67,7 +67,7 @@
 
         <div class="row">
             <div class="col">
-                <table class="ui stackable scrolling single line fixed table terciary ">
+                <table class="ui stackable scrolling single line fixed table terciary long">
                     <thead>
                         <tr>
                             <th>Nome</th>
