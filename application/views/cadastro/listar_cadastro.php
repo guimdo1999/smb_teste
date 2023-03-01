@@ -13,63 +13,124 @@
     <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.2/dist/semantic.min.js"></script>
     <title>Lista de Cadastros</title>
 </head>
+<style>
+    <?php include 'style.css' ?>
+</style>
 
 <body>
     <div class="container">
-        <h1>Lista de Cadastros</h1>
-
         <form action="lista" method="get">
-            <input class="form-control" type="text" name="nome" />
-            <input class="form-control" type="date" name="data_ini" />
-            <input class="form-control" type="date" name="data_fim" />
-            <input type="submit" class="form-control" class="btn btn-default" value="Buscar" />
-            <button class="ui icon button">
-                <i class="cloud icon"></i>
-            </button>
+            <div class="row justify-content-between">
+                <div class="col">
+                    <h1 class="titulo">Cadastrados</h1>
+                </div>
+                <div class="col-sm-3">
+                    <a class="ui icon button primary form-control" href="<?= base_url('cadastrar') ?>">Novo Cadastro</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row justify-content-end">
+                        <div class="col-md-4">
+                            <h3>Quer encontrar alguém? Procure a seguir: </h3>
+                        </div>
+                        <div class="col-md-2 ">
+                            <div class="ui input">
+                                <input class="form-control" type="text" name="nome" placeholder="Busque um nome" />
+                            </div>
+                        </div>
+                        <div class="col-md-2 ">
+                            <div class="ui calendar datepick" id="calendar_ini">
+                                <div class="ui input left icon">
+                                    <i class="calendar icon"></i>
+                                    <input type="text" class="form-control" name="data_ini" placeholder="Data inicial">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 ">
+                            <div class="ui calendar datepick" id="calendar_fim">
+                                <div class="ui input left icon">
+                                    <i class="calendar icon"></i>
+                                    <input type="text" class="form-control" name="data_fim" placeholder="Data final">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="ui icon button secundary form-control" type="submit">
+                                <i class="search icon"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </form>
-        <a href="<?= base_url('cadastrar') ?>" class="btn btn-primary">Novo Cadastro</a><br>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>E-mail</th>
-                    <th>Telefone</th>
-                    <th>Data de Nascimento</th>
-                    <th>Ação</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                function maskTel($telefone)
-                {
-                    $telefoneFormatado = preg_replace('/[^0-9]/', '', $telefone);
-                    $combina = [];
-                    preg_match('/^([0-9]{2})([0-9]{4,5})([0-9]{4})$/', $telefoneFormatado, $combina);
-                    if ($combina) {
-                        return '(' . $combina[1] . ') ' . $combina[2] . '-' . $combina[3];
-                    }
 
-                    return $telefone;
-                }
-                ?>
-                <?php foreach ($lista_cadastros as $key_cadastro => $cadastro) { ?>
-                    <tr>
-                        <td><?= $cadastro->nome ?></td>
-                        <td><?= $cadastro->email ?></td>
-                        <td><?= maskTel($cadastro->telefone) ?></td>
-                        <td><?= date("d/m/Y", strtotime($cadastro->data_nasc)) ?></td>
-                        <td>
-                            <a href="<?= base_url("editar/{$cadastro->id_cad}") ?>" class="btn btn-primary">Editar</a>
-                            <a href="<?= base_url("excluir/{$cadastro->id_cad}") ?>" class="btn btn-danger btn-excluir">X</a>
-                        </td>
-                    </tr>
-                <?php } ?>
-            </tbody>
-        </table>
+        <div class="row">
+            <div class="col">
+                <table class="ui stackable scrolling single line fixed table terciary ">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>E-mail</th>
+                            <th>Telefone</th>
+                            <th>Data de Nascimento</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        function maskTel($telefone)
+                        {
+                            $telefoneFormatado = preg_replace('/[^0-9]/', '', $telefone);
+                            $combina = [];
+                            preg_match('/^([0-9]{2})([0-9]{4,5})([0-9]{4})$/', $telefoneFormatado, $combina);
+                            if ($combina) {
+                                return '(' . $combina[1] . ') ' . $combina[2] . '-' . $combina[3];
+                            }
+
+                            return $telefone;
+                        }
+                        ?>
+                        <?php foreach ($lista_cadastros as $key_cadastro => $cadastro) { ?>
+                            <tr>
+                                <td><?= $cadastro->nome ?></td>
+                                <td><?= $cadastro->email ?></td>
+                                <td><?= maskTel($cadastro->telefone) ?></td>
+                                <td><?= date("d/m/Y", strtotime($cadastro->data_nasc)) ?></td>
+                                <td>
+                                    <a href="<?= base_url("editar/{$cadastro->id_cad}") ?>" class="btn primary">Editar</a>
+                                    <a href="<?= base_url("excluir/{$cadastro->id_cad}") ?>" class="btn btn-danger btn-excluir">X</a>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
 </body>
 <script>
+    $('.datepick')
+        .calendar({
+            type: "date",
+            monthFirst: false,
+            formatter: {
+                date: 'DD/MM/Y'
+            },
+            text: {
+                days: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+                dayNamesShort: ['Dom', 'Seg', 'Terça', 'Qua', 'Qui', 'Sexta', 'Sáb'],
+                dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+                months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                monthsShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                today: 'Hoje',
+                now: 'Agora',
+                am: 'AM',
+                pm: 'PM',
+                weekNo: 'Semana'
+            }
+        });
     $(function() {
         $('.btn-excluir').click(function(e) {
             e.preventDefault();
@@ -78,6 +139,22 @@
                 window.location.href = href;
             }
         })
+    })
+
+    //lidando com tamanhos de tela a partir de tablet
+    if (window.screen.width > 768) {
+        $(".table").removeClass("very long").addClass("long");
+    } else {
+        $(".table").removeClass("long").addClass("very long");
+    }
+    $(window).resize(function() {
+        if (window.screen.width > 768) {
+            $(".table").removeClass("very long").addClass("long");
+
+        } else {
+            $(".table").removeClass("long").addClass("very long");
+
+        }
     })
 </script>
 
