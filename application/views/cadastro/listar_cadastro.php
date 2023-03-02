@@ -11,7 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.2/dist/semantic.min.css">
     <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.2/dist/semantic.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/style.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/style.css">
 
     <title>Lista de Cadastros</title>
 </head>
@@ -34,14 +34,14 @@
                         </div>
                         <div class="col-md-2 ">
                             <div class="ui input">
-                                <input class="form-control" type="text" name="nome" placeholder="Busque um nome" />
+                                <input class="form-control" type="text" name="nome" placeholder="Busque um nome" value="<?= set_value('nome') ?>">
                             </div>
                         </div>
                         <div class="col-md-2 ">
                             <div class="ui calendar datepick" id="calendar_ini">
                                 <div class="ui input left icon">
                                     <i class="calendar icon"></i>
-                                    <input id="datePic" type="text" class="form-control" name="data_ini" maxlength="10" value="" placeholder="Data inicial">
+                                    <input id="datePic" type="text" class="form-control" name="data_ini" maxlength="10" value="<?= set_value('data_ini') ?>" placeholder="Data inicial">
                                 </div>
                             </div>
                         </div>
@@ -49,7 +49,7 @@
                             <div class="ui calendar datepick" id="calendar_fim">
                                 <div class="ui input left icon">
                                     <i class="calendar icon"></i>
-                                    <input id="datePick" type="text" class="form-control" name="data_fim" maxlength="10" value="" placeholder="Data final">
+                                    <input id="datePick" type="text" class="form-control" name="data_fim" maxlength="10" value="<?= set_value('data_fim') ?>" placeholder="Data final">
                                 </div>
                             </div>
                         </div>
@@ -94,5 +94,5 @@
         </div>
     </div>
 </body>
-<script type='text/javascript' src ="<?php echo base_url(); ?>js/listar_cadastro.js"></script>
+<script type='text/javascript' src ="<?php echo base_url(); ?>assets/js/listar_cadastro.js"></script>
 </html>

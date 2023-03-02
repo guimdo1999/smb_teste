@@ -55,9 +55,10 @@ $route['translate_uri_dashes'] = FALSE;
 
 //CADASTRO
 
+
 $route['cadastrar']['GET'] = 'CadastrosController/formCadastro';
 $route['cadastrar']['POST'] = 'CadastrosController/inserirCadastro';
-//$route['lista']['GET'] = 'CadastrosController/listarCadastros';
+$route['listaRecebe']['GET'] = 'CadastrosController/listarCadastros';
 $route['lista']['GET'] = 'CadastrosController/buscarCadastros';
 $route['excluir/(:any)']['GET'] = 'CadastrosController/excluirCadastro/$1';
 $route['editar/(:any)']['GET'] = 'CadastrosController/editarCadastro/$1';

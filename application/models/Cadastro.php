@@ -1,5 +1,5 @@
 <?php
-
+include './application/globalFunctions.php';
 class Cadastro extends CI_Model
 {
 
@@ -12,13 +12,14 @@ class Cadastro extends CI_Model
     protected $telefone;
     protected $email;
     protected $data_nasc;
-    
+
     public function __construct()
     {
         parent::__construct();
     }
 
-    public function insertCadastro() {
+    public function insertCadastro()
+    {
         $data = array(
             'nome' => $this->nome,
             'telefone' => $this->telefone,
@@ -28,14 +29,42 @@ class Cadastro extends CI_Model
         $this->db->insert('cadastro', $data);
     }
 
+    public function getCadastros()
+    {
+        $lista_cadastros = $this->db->get('cadastro')->result();
+        foreach ($lista_cadastros as $lista) {
+            $lista->telefone = maskTel($lista->telefone);
+            $lista->data_nasc = date("d/m/Y", strtotime($lista->data_nasc));
+        }
+        return $lista_cadastros;
+    }
+
     public function getCadastrosBusca($nomeBusca, $dataIni, $dataFim)
     {
         $query = "";
+
+        if (is_null($nomeBusca) || $nomeBusca == '') {
+            $nomeBusca = NULL;
+        } else {
+            $nomeBusca = preg_replace('/[^a-zA-Z ]/', '', $nomeBusca);
+        }
+        if (is_null($dataIni) || $dataIni == '') {
+            $dataIni = NULL;
+        } else {
+            $dataIni = date('Y-m-d', strtotime(convertDate($dataIni)));
+        }
+        if (is_null($dataFim) || $dataFim == '') {
+            $dataFim = NULL;
+        } else {
+            $dataFim = date('Y-m-d', strtotime(convertDate($dataFim)));
+        }
+
         //Verifica cada valor pra saber se está vazio ou não, e monta a query dinamicamente.
         if (!is_null($nomeBusca)) {
             $query = "nome LIKE '%$nomeBusca%' "; //Espaço no final caso tenha mais queries.
         }
         if (is_null($dataIni) && !is_null($dataFim)) {
+
             $query .= $query == "" ? "data_nasc < '$dataFim'" : "AND data_nasc < '$dataFim'";
         }
         if (!is_null($dataIni) && is_null($dataFim)) {
@@ -45,14 +74,17 @@ class Cadastro extends CI_Model
         if (!is_null($dataIni) && !is_null($dataFim)) {
             $query .= $query == "" ? "data_nasc BETWEEN '$dataIni' AND '$dataFim'" : "AND (data_nasc BETWEEN '$dataIni' AND '$dataFim')";
         }
-        //Se todos os valores forem nulos, fazemos um get normal.
-        if (is_null($nomeBusca) && (is_null($dataIni) && is_null($dataFim))) {
-            return $this->db->get('cadastro')->result();
+        //Se a query não estiver vazia, a executamos para o get.
+        if ($query != '') {
+            $this->db->where($query);
         }
 
-        //Fazemos uma query where e o get.
-        $this->db->where($query);
-        return $this->db->get('cadastro')->result();
+        $lista_cadastros = $this->db->get('cadastro')->result();
+        foreach ($lista_cadastros as $lista) {
+            $lista->telefone = maskTel($lista->telefone);
+            $lista->data_nasc = date("d/m/Y", strtotime($lista->data_nasc));
+        }
+        return $lista_cadastros;
     }
 
     public function excluir($cad_id)
@@ -64,13 +96,28 @@ class Cadastro extends CI_Model
     public function buscarId($id)
     {
         $id = intval($id);
-        return $this->db->get_where('cadastro', array('id_cad' => $id))->row();
+        $cadastro = $this->db->get_where('cadastro', array('id_cad' => $id))->row();
+        $cadastro->telefone = maskTel($cadastro->telefone);
+        return $cadastro;
     }
 
-    public function atualizar($cad_id, $cadastros)
+    public function atualizar($cad_id, $cadastro)
     {
         $this->db->where('id_cad', $cad_id);
-        $this->db->update('cadastro', $cadastros);
+
+        $this->db->set('nome', $cadastro->getNome());
+        $this->db->set('telefone', $cadastro->getTelefone());
+        $this->db->set('email', $cadastro->getEmail());
+        $this->db->set('data_nasc', $cadastro->getDataNasc());
+
+        $this->db->update('cadastro');
+
+        if ($this->db->affected_rows() > 0) {
+            return $cad_id;
+        } else {
+            return NULL;
+        }
+        $this->db->update('cadastro', $cadastro);
         if ($this->db->affected_rows() > 0) {
             return $cad_id;
         } else {
@@ -79,21 +126,51 @@ class Cadastro extends CI_Model
     }
 
     //setters
-    public function setNome($nome){
-        $nome=preg_replace('/[^a-zA-Z ]/', '', $nome);
+    public function setIdCad($id_cad)
+    {
+
+        $this->id_cad = $id_cad;
+    }
+    public function setNome($nome)
+    {
+        $nome = preg_replace('/[^a-zA-Z ]/', '', $nome);
         $this->nome = $nome;
     }
 
-    public function setTelefone($telefone){
+    public function setTelefone($telefone)
+    {
         $telefone = preg_replace('/[^0-9]/', '', $telefone);
         $this->telefone = $telefone;
     }
 
-    public function setEmail($email){
+    public function setEmail($email)
+    {
         $this->email = $email;
     }
 
-    public function setDataNasc($data_nasc){
+    public function setDataNasc($data_nasc)
+    {
         $this->data_nasc = date('Y-m-d', strtotime(convertDate($data_nasc)));
+    }
+
+    //Getters
+    public function getNome()
+    {
+        return $this->nome;
+    }
+
+    public function getTelefone()
+    {
+        return $this->telefone;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function getDataNasc()
+    {
+        return $this->data_nasc;
     }
 }

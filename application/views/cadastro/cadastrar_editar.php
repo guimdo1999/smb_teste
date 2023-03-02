@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.2/dist/semantic.min.css">
     <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.2/dist/semantic.min.js"></script>
     <title><?= uri_string() === 'cadastrar' ? "Cadastro" : "Editar" ?></title>
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>css/style.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/style.css">
 </head>
 <body>
 
@@ -59,6 +59,6 @@
     </div>
 
 </body>
-<script type='text/javascript' src ="<?php echo base_url(); ?>js/cadastrar_editar.js"></script>
+<script type='text/javascript' src ="<?php echo base_url(); ?>assets/js/cadastrar_editar.js"></script>
 
 </html>
