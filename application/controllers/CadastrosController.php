@@ -1,7 +1,5 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-//include './application/globalFunctions.php';
-
 class CadastrosController extends CI_Controller
 {
     public function formCadastro()
@@ -13,28 +11,16 @@ class CadastrosController extends CI_Controller
 
     public function inserirCadastro()
     {
-
         $this->load->library('form_validation');
         $this->load->model("Cadastro");
         $cadastro = new Cadastro();
+        $cadastro->setNome($this->input->post('nome'));
+        $cadastro->setTelefone($this->input->post('telefone'));
+        $cadastro->setEmail($this->input->post('email'));
+        $cadastro->setDataNasc($this->input->post('data_nasc'));
+        $cadastro->insertCadastro();
+        //redirect(base_url("cadastrar"));
 
-        $this->form_validation->set_rules('nome', 'Nome', 'required', array('required' => 'Você deve preencher o campo Nome.'));
-        $this->form_validation->set_rules('telefone', 'Telefone', 'required', array('required' => 'Você deve preencher o campo telefone.'));
-        $this->form_validation->set_rules('email', 'Email', 'required|valid_email', array('required' => 'Você deve preencher o campo E-mail.', 'valid_email' => 'Preencha um e-mail válido.'));
-        $this->form_validation->set_rules('data_nasc', 'Data de nascimento', 'required', array('required' => 'Você deve preencher a Data de Nascimento.'));
-
-        if ($this->form_validation->run() == false) {
-            return $this->load->view('cadastro/cadastrar_editar');
-        } else {
-
-            $cadastro->setNome($this->input->post('nome'));
-            $cadastro->setTelefone($this->input->post('telefone'));
-            $cadastro->setEmail($this->input->post('email'));
-            $cadastro->setDataNasc($this->input->post('data_nasc'));
-            
-            $cadastro->insertCadastro();
-            redirect(base_url("cadastrar"));
-        }
     }
 
     public function buscarCadastros()
@@ -48,10 +34,7 @@ class CadastrosController extends CI_Controller
             $this->input->get('data_fim') == "" ? NULL : $this->input->get('data_fim')
         );
 
-       
-
         echo json_encode($lista_cadastros);
-        //$dados = array("lista_cadastros" => $lista_cadastros);
         //$this->load->view('cadastro/listar_cadastro', $dados); 
     }
 
@@ -61,18 +44,15 @@ class CadastrosController extends CI_Controller
         $this->load->model("Cadastro", "cadastro");
 
         $lista_cadastros = $this->cadastro->getCadastros();
-        
 
         echo json_encode($lista_cadastros);
-        //$dados = array("lista_cadastros" => $lista_cadastros);
         //$this->load->view('cadastro/listar_cadastro', $dados);
     }
 
     public function excluirCadastro($cad_id)
     {
-        $this->load->model("Cadastros");
+        $this->load->model("Cadastro", "cadastro");
         $this->cadastro->excluir($cad_id);
-        redirect(base_url('lista'));
     }
 
     public function editarCadastro($cad_id)
@@ -81,31 +61,24 @@ class CadastrosController extends CI_Controller
         $this->load->model("Cadastro", "cadastro");
 
         $cadastro = $this->cadastro->buscarId($cad_id);
-        $dados = array("cadastro" => $cadastro);
-        $this->load->view("cadastro/cadastrar_editar", $dados);
+        echo json_encode(array("cadastro" => $cadastro));
+        //$this->load->view("cadastro/cadastrar_editar", $dados);
     }
 
     public function atualizarCadastro($cad_id)
     {
         $this->load->model("Cadastro");
         $cadastro = new Cadastro();
-        $this->form_validation->set_rules('nome', 'Nome', 'required', array('required' => 'Você deve preencher o campo Nome.'));
-        $this->form_validation->set_rules('telefone', 'Telefone', 'required', array('required' => 'Você deve preencher o campo telefone.'));
-        $this->form_validation->set_rules('email', 'Email', 'required|valid_email', array('required' => 'Você deve preencher o campo E-mail.', 'valid_email' => 'Preencha um e-mail válido.'));
-        $this->form_validation->set_rules('data_nasc', 'Data de nascimento', 'required', array('required' => 'Você deve preencher a Data de Nascimento.'));
 
-        if ($this->form_validation->run() === false) {
-            $this->editarCadastro($cad_id);
-        } else {
 
-            $cadastro->setIdCad($cad_id);
-            $cadastro->setNome($this->input->post('nome'));
-            $cadastro->setTelefone($this->input->post('telefone'));
-            $cadastro->setEmail($this->input->post('email'));
-            $cadastro->setDataNasc($this->input->post('data_nasc'));
+        $cadastro->setIdCad($cad_id);
+        $cadastro->setNome($this->input->post('nome'));
+        $cadastro->setTelefone($this->input->post('telefone'));
+        $cadastro->setEmail($this->input->post('email'));
+        $cadastro->setDataNasc($this->input->post('data_nasc'));
 
-            $cadastro->atualizar($cad_id, $cadastro);
-            redirect(base_url("editar/{$cad_id}"));
-        }
+        $cadastro->atualizar($cad_id, $cadastro);
+        //redirect(base_url("editar/{$cad_id}"));
+
     }
 }
